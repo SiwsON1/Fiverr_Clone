@@ -52,6 +52,9 @@ module.exports = withUt({
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        twine: {
+          DEFAULT: "#c18653",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

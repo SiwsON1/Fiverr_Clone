@@ -22,7 +22,7 @@ interface TitleFormProps {
   initialData: {
     title: string;
   };
-  courseId: string;
+  serviceId: string;
 }
 
 const formSchema = z.object({
@@ -30,7 +30,7 @@ const formSchema = z.object({
     message:"Title is required",
   }),
 });
-export const TitleForm = ({ initialData, courseId }: TitleFormProps) => {
+export const TitleForm = ({ initialData, serviceId }: TitleFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -46,8 +46,8 @@ export const TitleForm = ({ initialData, courseId }: TitleFormProps) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/courses/${courseId}`, values);
-      toast.success("Course updated");
+      await axios.patch(`/api/services/${serviceId}`, values);
+      toast.success("service updated");
       toggleEdit();
       router.refresh();
     } catch {
@@ -56,7 +56,7 @@ export const TitleForm = ({ initialData, courseId }: TitleFormProps) => {
   }
 
   return (
-  <div className="mt-6 border bg-slate-100 rounded-md p-4">
+  <div className="mt-6 border bg-twine rounded-md p-4">
     <div className="font-medium flex items-center justify-between">
       Title
       <Button onClick ={toggleEdit} variant="ghost">

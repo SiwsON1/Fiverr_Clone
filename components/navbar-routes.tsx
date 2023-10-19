@@ -23,9 +23,9 @@ Exit
                 </Button>
                 </Link>
             ): (
-                <Link href ="/teacher/courses">
+                <Link href ="/teacher/services">
                 <Button size ="sm" variant ="ghost">
-                    Teacher mode
+                    Freelancer mode
                 </Button>
                 </Link>
             )}

@@ -39,9 +39,9 @@ const CreatePage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await axios.post("/api/courses", values);
-      router.push(`/teacher/courses/${response.data.id}`);
-      toast.success("Course created");
+      const response = await axios.post("/api/services", values);
+      router.push(`/teacher/services/${response.data.id}`);
+      toast.success("Gig created");
     } catch {
       toast.error("Something went wrong");
     }
@@ -51,10 +51,10 @@ const CreatePage = () => {
     <div className="max-w-5xl mx-auto flex md:items-center md:justify-center h-full p-6">
       <div>
         <h1 className="text-2xl">
-          Name your course
+          Name your service
         </h1>
         <p className="text-sm text-slate-600">
-          What would you like to name your course? Don&apos;t worry, you can change this later.
+          What would you like to name your service? Don&apos;t worry, you can change this later.
         </p>
         <Form {...form}>
           <form
@@ -67,7 +67,7 @@ const CreatePage = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    Course title
+                    Gig title
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -77,7 +77,7 @@ const CreatePage = () => {
                     />
                   </FormControl>
                   <FormDescription>
-                    What will you teach in this course?
+                    What will you provide in this Gig?
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
