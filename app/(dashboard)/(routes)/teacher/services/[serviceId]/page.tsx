@@ -2,12 +2,13 @@ import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { IconBadge } from "@/components/icon-badge";
-import { PanelTop, ListChecks, Wallet } from "lucide-react";
+import { PanelTop, ListChecks, Wallet, File } from "lucide-react";
 import { TitleForm } from "./_components/title-form";
 import { DescriptionForm } from "./_components/description-form";
 import { ImageForm } from "./_components/image-form";
 import { CategoryForm } from "./_components/category-form";
 import { PriceForm } from "./_components/price-form";
+import { AttachmentForm } from "./_components/attachment-form";
 
 const ServiceIdPage = async ({ params }: { params: { serviceId: string } }) => {
   const { userId } = auth();
@@ -17,6 +18,13 @@ const ServiceIdPage = async ({ params }: { params: { serviceId: string } }) => {
   }
   const service = await db.service.findUnique({
     where: { id: params.serviceId },
+    include: {
+      attachments:{
+        orderBy: {
+          createdAt: 'desc',
+        },
+      },
+    },
   });
 
   const categories = await db.category.findMany({
@@ -58,27 +66,39 @@ const ServiceIdPage = async ({ params }: { params: { serviceId: string } }) => {
           <TitleForm initialData={service} serviceId={service.id} />
           <DescriptionForm initialData={service} serviceId={service.id} />
           <ImageForm initialData={service} serviceId={service.id} />
-          <CategoryForm initialData={service} serviceId={service.id} options={categories.map((category)=> ({
-            label:category.name,
-            value: category.id,
-          }))} />
+          <CategoryForm
+            initialData={service}
+            serviceId={service.id}
+            options={categories.map((category) => ({
+              label: category.name,
+              value: category.id,
+            }))}
+          />
         </div>
-        <div className = "space-y-6">
+        <div className="space-y-6">
           <div>
             <div className="flex items-center gap-x-2">
-        <IconBadge icon = {ListChecks} />
-        <h2 className="text-xl">
-Course chapters
-        </h2>
+              <IconBadge icon={ListChecks} />
+              <h2 className="text-xl">service chapters</h2>
             </div>
           </div>
           <div className="flex items-center gap-x-2">
-<IconBadge icon = {Wallet} />
-<h2 className="text-xl">
-  Sell your GIG
-</h2>
+            <IconBadge icon={Wallet} />
+            <h2 className="text-xl">Sell your GIG</h2>
           </div>
           <PriceForm initialData={service} serviceId={service.id} />
+          <div>
+              <div className="flex items-center gap-x-2">
+                <IconBadge icon={File} />
+                <h2 className="text-xl">
+                  Resources & Attachments
+                </h2>
+              </div>
+              <AttachmentForm
+                initialData={service}
+                serviceId={service.id}
+              />
+            </div>
         </div>
       </div>
     </div>
