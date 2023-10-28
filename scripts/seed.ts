@@ -5,6 +5,18 @@ const database = new PrismaClient();
 async function main() {
 
     try{
+        await database.category.deleteMany({
+            where: {
+                name: {
+                    in: [
+                        "Entrepreneurship & Strategy",
+                        "Information & Analytics",
+                        "Machine Learning & Automation"
+
+                    ]
+                }
+            }
+        });
 await database.category.createMany({
     data: [
 
@@ -13,10 +25,7 @@ await database.category.createMany({
 {name: "Film & Motion Graphics"},
 {name: "Literature & Linguistics"},
 {name: "Audio & Melody"},
-{name: "Entrepreneurship & Strategy"},
-{name: "Information & Analytics"},
 {name: "Imagery & Captures"},
-{name: "Machine Learning & Automation"},
     ]
 });
 console.log("Success");

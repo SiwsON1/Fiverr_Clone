@@ -9,6 +9,8 @@ import { ImageForm } from "./_components/image-form";
 import { CategoryForm } from "./_components/category-form";
 import { PriceForm } from "./_components/price-form";
 import { AttachmentForm } from "./_components/attachment-form";
+import { Banner } from "@/components/ui/banner";
+import { Actions } from "./_components/actions";
 
 const ServiceIdPage = async ({ params }: { params: { serviceId: string } }) => {
   const { userId } = auth();
@@ -17,7 +19,10 @@ const ServiceIdPage = async ({ params }: { params: { serviceId: string } }) => {
     return redirect("/");
   }
   const service = await db.service.findUnique({
-    where: { id: params.serviceId },
+    where: {
+      id: params.serviceId,
+      userId
+     },
     include: {
       attachments:{
         orderBy: {
@@ -47,7 +52,16 @@ const ServiceIdPage = async ({ params }: { params: { serviceId: string } }) => {
 
   const completionText = `(${completedFields}/${totalFields})`;
 
+  const isComplete = requiredFields.every(Boolean);
+
+
   return (
+    <>
+    {!service.isPublished &&(
+      <Banner
+      label ={"This GIG is not published. It will not be visible to users"}
+      />
+    )}
     <div className="p-6">
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-y-2">
@@ -56,6 +70,12 @@ const ServiceIdPage = async ({ params }: { params: { serviceId: string } }) => {
             Completed fields {completionText}
           </p>
         </div>
+        <Actions
+disabled={!isComplete}
+serviceId={params.serviceId}
+isPublished={service.isPublished}
+
+         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
         <div>
@@ -102,6 +122,7 @@ const ServiceIdPage = async ({ params }: { params: { serviceId: string } }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
