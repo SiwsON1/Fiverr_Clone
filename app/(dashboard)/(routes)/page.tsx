@@ -1,12 +1,10 @@
 
-import { UserButton } from "@clerk/nextjs"
+import Hero from "./_components/Hero"
 
 export default function Home() {
   return (
     <div>
- <UserButton
- afterSignOutUrl = "/"
- />
+ <Hero />
 
     </div>
 
